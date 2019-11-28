@@ -32,33 +32,36 @@ int main()
 string montantEnVaudois(double dblMontant){
 
     string casSpeciaux[] = {
-        "zero",
-        "un",
-        "deux",
-        "trois",
-        "quatre",
-        "cinq",
-        "six",
-        "sept",
-        "huit",
-        "neuf",
-        "dix",
-        "onze",
-        "douze",
-        "treize",
-        "quatorze",
-        "quinze",
-        "seize",
-        "dix-sept",
-        "dix-huit",
-        "dix-neuf",
-        "vingt"
+            "zero",
+            "un",
+            "deux",
+            "trois",
+            "quatre",
+            "cinq",
+            "six",
+            "sept",
+            "huit",
+            "neuf",
+            "dix",
+            "onze",
+            "douze",
+            "treize",
+            "quatorze",
+            "quinze",
+            "seize",
+            "dix-sept",
+            "dix-huit",
+            "dix-neuf",
+            "vingt"
     };
     int iEntier = dblMontant;
     float fDecimal = dblMontant - iEntier;
     int iDecimal = fDecimal*100;
 
-    cout << iEntier << "----" << iDecimal;
+    string strEntier = to_string(iEntier);
+    string strDecimal = to_string(iDecimal);
+
+    cout << strEntier << "----" << strDecimal;
 
 
 
