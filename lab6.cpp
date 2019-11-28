@@ -54,25 +54,12 @@ string montantEnVaudois(double dblMontant){
         "dix-neuf",
         "vingt"
     };
+    int iEntier = dblMontant;
+    float fDecimal = dblMontant - iEntier;
+    int iDecimal = fDecimal*100;
 
-    string strMontant = to_string(dblMontant);
-    string strEntier, strDecimal;
-    bool bPoint=false;
+    cout << iEntier << "----" << iDecimal;
 
-    for (int i = 0; i < strMontant.length()-1 ; ++i) {
 
-        if(strMontant[i] == '.'){
-            bPoint= true;
-            continue; //Permet de ne pas mettre le "." dans la chaîne strDecimal
-        }
 
-        if(bPoint){
-            //On ajoute les deux premier chiffre après la virgule et on sort de la boucle
-            strDecimal += strMontant[i];
-            strDecimal += strMontant[i+1];
-            break;
-        } else{
-            strEntier += strMontant[i];
-        }
-    }
 }
