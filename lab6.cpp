@@ -18,7 +18,7 @@ using namespace std;
  */
 string montantEnVaudois(double dblMontant);
 
-string TraductionEntier(string entier);
+string TraductionEntier(string entier, int iLongueurEntier);
 
 int main()
 {
@@ -73,7 +73,7 @@ string TraductionEntier(int entier, int iLongueurEntier){
 
    const int CENT = 0;
 
-    string strResultat = "";
+    string strResultat;
 
     int centaineCalcul = entier/100;
     int dizaineCalcul = (entier - (centaineCalcul*100))/10;
@@ -82,10 +82,16 @@ string TraductionEntier(int entier, int iLongueurEntier){
     switch(iLongueurEntier)
     {
         case 3:
-            if(centaineCalcul != 1){
-                strResultat += unite[centaineCalcul] + " " + dizaines[CENT] + " ";
-            }else{
+            if(centaineCalcul != 1 && dizaineCalcul == 0 && uniteCalcul == 0){
+                strResultat += unite[centaineCalcul] + " " + dizaines[CENT] + "s";
+                break;
+            } else if (centaineCalcul == 1 && dizaineCalcul == 0 && uniteCalcul == 0){
+                strResultat += dizaines[CENT];
+                break;
+            }else if (centaineCalcul == 1){
                 strResultat += dizaines[CENT] + " ";
+            }else{
+                strResultat += unite[centaineCalcul] + " " + dizaines[CENT] + " ";
             }
         case 2:
             if(uniteCalcul == 0){
@@ -116,10 +122,31 @@ string montantEnVaudois(double dblMontant){
     float fDecimal = dblMontant - iEntier;
     int iDecimal = fDecimal*100;
 
+    int iCentaine = 0, iMillier = 0;
+
+    string strResultat;
+
     string strEntier = to_string(iEntier);
     string strDecimal = to_string(iDecimal);
 
+    string strMillier;
+    string strCentaine;
 
-    return TraductionEntier(iEntier,strEntier.length());
+    if(strEntier.length() <= 3){
+        strResultat = TraductionEntier(iEntier,strEntier.length());
+    }else{
+        iMillier = iEntier/1000;
+        iCentaine = iEntier - iMillier*1000;
+
+        strMillier = to_string(iMillier);
+        strCentaine = to_string(iCentaine);
+
+        strResultat = TraductionEntier(iMillier, strMillier.length());
+        strResultat += " mille ";
+        strResultat += TraductionEntier(iCentaine,strCentaine.length());
+
+    }
+
+    return strResultat;
 
 }
