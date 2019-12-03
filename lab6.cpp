@@ -20,6 +20,17 @@ string montantEnVaudois(double dblMontant);
 
 string TraductionEntier(string entier, int iLongueurEntier, bool bMillier);
 
+int main()
+{
+    double d;
+
+    while( cin >> d ) {
+        cout << montantEnVaudois(d) << endl;
+    }
+
+    return 0;
+}
+
 string TraductionEntier(int entier, int iLongueurEntier, bool bMillier){
 
     const string unite[] = {
@@ -116,10 +127,10 @@ string TraductionEntier(int entier, int iLongueurEntier, bool bMillier){
 }
 
 string montantEnVaudois(double dblMontant){
-
+    const int ARRONDIE = 0.0001;
     int iEntier = dblMontant;
     float fDecimal = dblMontant - iEntier;
-    fDecimal += 0.0001;
+    fDecimal += ARRONDIE;
     int iDecimal = fDecimal*100;
 
     int iCentaine = 0, iMillier = 0;
@@ -133,7 +144,9 @@ string montantEnVaudois(double dblMontant){
     string strCentaine;
 
 
-    if(iEntier != 0 || iDecimal == 0) {
+    if(iEntier == 0) {
+
+    }else {
         if (strEntier.length() <= 3) {
             strResultat = TraductionEntier(iEntier, strEntier.length(), false);
 
@@ -153,17 +166,17 @@ string montantEnVaudois(double dblMontant){
             }
         }
 
-        if (iEntier <= 1) {
-            strResultat += " franc";
-        } else {
-            strResultat += " francs";
+        if(iDecimal != 0){
+            if (iEntier <= 1) {
+                strResultat += " franc";
+            } else {
+                strResultat += " francs";
+            }
         }
 
     }
 
-    if(iEntier != 0 && iDecimal != 0){
-        strResultat += " et ";
-    }
+
 
     //Si il y a une décimal
     if(iDecimal>0.0)
