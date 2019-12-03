@@ -20,58 +20,47 @@ string montantEnVaudois(double dblMontant);
 
 string TraductionEntier(string entier, int iLongueurEntier, bool bMillier);
 
-int main()
-{
-    double d;
-
-    while( cin >> d ) {
-        cout << montantEnVaudois(d) << endl;
-    }
-
-    return 0;
-}
-
 string TraductionEntier(int entier, int iLongueurEntier, bool bMillier){
 
     const string unite[] = {
-        "zero",
-        "un",
-        "deux",
-        "trois",
-        "quatre",
-        "cinq",
-        "six",
-        "sept",
-        "huit",
-        "neuf",
+            "zero",
+            "un",
+            "deux",
+            "trois",
+            "quatre",
+            "cinq",
+            "six",
+            "sept",
+            "huit",
+            "neuf",
     };
 
-   const string casSpeciaux[] = {
-        "onze",
-        "douze",
-        "treize",
-        "quatorze",
-        "quinze",
-        "seize",
-        "dix-sept",
-        "dix-huit",
-        "dix-neuf"
+    const string casSpeciaux[] = {
+            "onze",
+            "douze",
+            "treize",
+            "quatorze",
+            "quinze",
+            "seize",
+            "dix-sept",
+            "dix-huit",
+            "dix-neuf"
     };
 
-   const string dizaines[]{
-       "cent",
-       "dix",
-       "vingt",
-       "trente",
-       "quarante",
-       "cinquante",
-       "soixante",
-       "septante",
-       "huitante",
-       "nonante",
-   };
+    const string dizaines[]{
+            "cent",
+            "dix",
+            "vingt",
+            "trente",
+            "quarante",
+            "cinquante",
+            "soixante",
+            "septante",
+            "huitante",
+            "nonante",
+    };
 
-   const int CENT = 0;
+    const int CENT = 0;
 
     string strResultat;
 
@@ -143,35 +132,52 @@ string montantEnVaudois(double dblMontant){
     string strMillier;
     string strCentaine;
 
-    if(strEntier.length() <= 3){
 
-        strResultat = TraductionEntier(iEntier,strEntier.length(), false);
+    if(iEntier != 0 || iDecimal == 0) {
+        if (strEntier.length() <= 3) {
+            strResultat = TraductionEntier(iEntier, strEntier.length(), false);
 
-    }else{
+        } else {
+            iMillier = iEntier / 1000;
+            iCentaine = iEntier - iMillier * 1000;
 
-        iMillier = iEntier/1000;
-        iCentaine = iEntier - iMillier*1000;
+            strMillier = to_string(iMillier);
+            strCentaine = to_string(iCentaine);
 
-        strMillier = to_string(iMillier);
-        strCentaine = to_string(iCentaine);
-
-        if(iMillier != 1){
-            strResultat = TraductionEntier(iMillier, strMillier.length(), true);
+            if (iMillier != 1) {
+                strResultat = TraductionEntier(iMillier, strMillier.length(), true);
+            }
+            strResultat += " mille ";
+            if (iCentaine != 0) { //Exeption x00'000
+                strResultat += TraductionEntier(iCentaine, strCentaine.length(), false);
+            }
         }
-        strResultat += " mille ";
-        if(iCentaine != 0){ //Exeption x00'000
-            strResultat += TraductionEntier(iCentaine,strCentaine.length(), false);
+
+        if (iEntier <= 1) {
+            strResultat += " franc";
+        } else {
+            strResultat += " francs";
         }
 
     }
 
-    if(iEntier <= 1){
-        strResultat += " franc";
-    } else{
-        strResultat += " francs";
+    if(iEntier != 0 && iDecimal != 0){
+        strResultat += " et ";
     }
 
+    //Si il y a une décimal
+    if(iDecimal>0.0)
+    {
+        strResultat += TraductionEntier(iDecimal,strDecimal.length(), false);
+        //Si la décimal ne vaut 1 alors on affiche "centime" au lieu de "centimes"
+        if(iDecimal==1)
+        {
+            strResultat += " centime";
+        } else
+        {
+            strResultat += " centimes";
+        }
+    }
 
     return strResultat;
-
 }
