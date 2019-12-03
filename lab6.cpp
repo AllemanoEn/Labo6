@@ -31,6 +31,14 @@ int main()
     return 0;
 }
 
+/**
+\brief Permet de transformer 3 chiffres en lettre
+\param[in] entier int qui contient les chiffres
+\param[in] iLongueurEntier int qui contient le nombre de chiffres
+\param[in] bMillier bool qui permet de savoir si on travaille sur les milliers (ou les centaines et les décimales)
+\return Retourne les nombres en lettres
+\details Permet de "convertir" 3 chiffres en lettre. Gère les exceptions comme les "-" ou "et" entre les nombres.
+*/
 string TraductionEntier(int entier, int iLongueurEntier, bool bMillier){
 
     const string unite[] = {
@@ -126,11 +134,22 @@ string TraductionEntier(int entier, int iLongueurEntier, bool bMillier){
     return  strResultat;
 }
 
+/**
+\brief permet de récupérer le nombre entré et appelle la fonction qui va convertir les nombres en lettre
+\param[in] dblMontant double qui contient le montant entrée par l'utilisateur
+\return Retourne la chaîne entière convertit en lettre (2.45 -> deux francs et quarante-cinq centimes)
+\details Séparer le montant en millier, centaine et décimal. Cela est ensuite utilisé lors de l'appel
+ à la fonction "TraductionEntier". On gère également les exeptions.
+*/
 string montantEnVaudois(double dblMontant){
-    const int ARRONDIE = 0.0001;
+
+    //Comme vu en cours, pour comparer des valeurs en float, on declare une variable qui nous permet d'arrondir en cas de décimals
+    const int ARONDIE = 0.0001;
+    //On garde uniquement la partie entière
     int iEntier = dblMontant;
+    //On garde la partie décimals
     float fDecimal = dblMontant - iEntier;
-    fDecimal += ARRONDIE;
+    fDecimal += ARONDIE;
     int iDecimal = fDecimal*100;
 
     int iCentaine = 0, iMillier = 0;
@@ -144,45 +163,49 @@ string montantEnVaudois(double dblMontant){
     string strCentaine;
 
 
-    if(iEntier == 0) {
-
-    }else {
+    if(iEntier != 0 || iDecimal == 0) {
+        //On passe dans ce if, uniquement si il n'y a que des centaines
         if (strEntier.length() <= 3) {
             strResultat = TraductionEntier(iEntier, strEntier.length(), false);
 
         } else {
+            //On passe içi si l'entier contient de centaines et des milliers
+
             iMillier = iEntier / 1000;
             iCentaine = iEntier - iMillier * 1000;
 
             strMillier = to_string(iMillier);
             strCentaine = to_string(iCentaine);
 
+            //On passe içi uniquement si la valeur est différente de 1000
             if (iMillier != 1) {
                 strResultat = TraductionEntier(iMillier, strMillier.length(), true);
             }
             strResultat += " mille ";
-            if (iCentaine != 0) { //Exeption x00'000
+            if (iCentaine != 0) {
+                //On passe içi si il n'y a pas de centaines
                 strResultat += TraductionEntier(iCentaine, strCentaine.length(), false);
             }
         }
 
-        if(iDecimal != 0){
-            if (iEntier <= 1) {
-                strResultat += " franc";
-            } else {
-                strResultat += " francs";
-            }
+        if (iEntier <= 1) {
+            strResultat += " franc";
+        } else {
+            strResultat += " francs";
         }
 
     }
 
-
+    if(iEntier != 0 && iDecimal != 0){
+        strResultat += " et ";
+    }
 
     //Si il y a une décimal
     if(iDecimal>0.0)
     {
         strResultat += TraductionEntier(iDecimal,strDecimal.length(), false);
-        //Si la décimal ne vaut 1 alors on affiche "centime" au lieu de "centimes"
+
+        //Si la décimal vaut 1 alors on affiche "centime" au lieu de "centimes"
         if(iDecimal==1)
         {
             strResultat += " centime";
