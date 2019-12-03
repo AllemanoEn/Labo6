@@ -133,8 +133,11 @@ string montantEnVaudois(double dblMontant){
     string strCentaine;
 
     if(strEntier.length() <= 3){
+
         strResultat = TraductionEntier(iEntier,strEntier.length());
+
     }else{
+
         iMillier = iEntier/1000;
         iCentaine = iEntier - iMillier*1000;
 
