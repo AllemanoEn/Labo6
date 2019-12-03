@@ -1,3 +1,22 @@
+/*
+ -----------------------------------------------------------------------------------
+ Laboratoire : 06
+ Fichier     : lab6.cpp
+ Auteur(s)   : Luca Zacheo, Enzo Allemano, David Darmanger
+ Date        : 03/12/2019
+
+ But         : Le but de ce laboratoire est de créer une fonction qui reçoit en entrée un nombre réel au format double, 
+				et retourne une chaine de caractères au format string contenant en vaudois le montant correspondant exprimé en francs et centimes.
+				Le français utilisé est celui utilisé dans le canton de Vaud, donc septante, huitante et nonante pour 70, 80 et 90.
+			La fonction doit traiter correctement toutes les valeurs entre 0 francs et 999'999 francs et 99 centimes,
+			en respectant les règles de la grammaire française. Cependant, n'utilisez pas les accents. Ecrivez donc zero et pas zéro.
+
+ Remarque(s) :
+
+ Compilateur : MinGW-g++ 6.3.0
+ -----------------------------------------------------------------------------------
+ */
+
 #include <string>
 #include <iostream>
 
